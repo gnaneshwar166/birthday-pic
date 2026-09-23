@@ -342,9 +342,9 @@ body{
 }
 .wish.is-in{ visibility:visible; }
 .wish::before{
-  content:""; position:absolute; inset:-18% -24% -24% -16%;
-  background:radial-gradient(84% 98% at 34% 52%, rgba(255,250,243,.94), rgba(255,250,243,.6) 48%, rgba(255,250,243,0) 80%);
-  z-index:-1; opacity:0; transition:opacity 1s ease;
+  content:""; position:absolute; inset:-4% -8% -4% -8%;
+  background:radial-gradient(84% 98% at 34% 52%, rgba(255,250,243,.32), rgba(255,250,243,.1) 48%, rgba(255,250,243,0) 80%);
+  z-index:-1; opacity:0; transition:opacity 1s ease; pointer-events:none;
 }
 .wish.is-in::before{ opacity:1; }
 .wish__eyebrow{
@@ -467,73 +467,193 @@ body{
 }
 
 /* ============================================================
-   ACT 4 — FRIEND PHOTO CARD
+/* ============================================================
+   ACT 4 — FRIEND MULTI-PHOTO MEMORY DECK & CAROUSEL
    ============================================================ */
-.wish__photoCard{
-  margin-bottom: clamp(10px, 2vh, 18px);
+.wish__photoDeck{
+  margin-bottom: clamp(12px, 2.2vh, 22px);
   opacity: 0;
-  transform: translateY(14px) scale(0.92);
-  transition: opacity 0.8s ease 0.6s, transform 0.8s var(--ease-out) 0.6s;
+  transform: translateY(16px) scale(0.92);
+  transition: opacity 0.8s ease 0.5s, transform 0.8s var(--ease-out) 0.5s;
+  pointer-events: auto !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 15;
 }
-.wish.is-in .wish__photoCard{
+.wish.is-in .wish__photoDeck{
   opacity: 1;
   transform: translateY(0) scale(1);
 }
 
-.photoCard__frame{
+.photoDeck__container{
   position: relative;
-  width: clamp(76px, 16vw, 118px);
-  height: clamp(76px, 16vw, 118px);
-  border-radius: 50%;
-  padding: 4px;
-  background: linear-gradient(135deg, #ffe0a3 0%, #ff8fae 50%, #d4235c 100%);
-  box-shadow: 
-    0 8px 24px -4px rgba(140, 20, 55, 0.4),
-    0 0 20px rgba(255, 200, 160, 0.6),
-    inset 0 2px 4px rgba(255, 255, 255, 0.8);
-  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: auto !important;
 }
 
-.photoCard__glow{
+.photoDeck__stack{
+  position: relative;
+  width: clamp(140px, 32vw, 195px);
+  height: clamp(150px, 34vw, 210px);
+  perspective: 1000px;
+  pointer-events: auto !important;
+}
+
+.photoDeck__card{
   position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 220, 180, 0.7), rgba(255, 110, 150, 0.2) 60%, transparent 80%);
-  filter: blur(8px);
-  z-index: -1;
-  animation: photoGlowPulse 3s ease-in-out infinite alternate;
+  inset: 0;
+  border-radius: 14px;
+  padding: 8px 8px 22px 8px;
+  background: #fffdfa;
+  box-shadow: 
+    0 10px 28px -4px rgba(120, 15, 45, 0.35),
+    0 0 16px rgba(255, 200, 160, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+  cursor: pointer !important;
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.45s ease, box-shadow 0.3s ease;
+  user-select: none;
+  pointer-events: auto !important;
 }
 
-@keyframes photoGlowPulse {
-  0% { transform: scale(0.96); opacity: 0.6; }
-  100% { transform: scale(1.08); opacity: 1; }
+.photoDeck__card:hover{
+  transform: translateY(-6px) scale(1.04) rotate(0deg) !important;
+  box-shadow: 
+    0 16px 36px -4px rgba(160, 18, 60, 0.45),
+    0 0 24px rgba(255, 210, 170, 0.6);
+  z-index: 20 !important;
 }
 
-.photoCard__img{
+.photoDeck__card.is-active{
+  z-index: 10;
+  transform: translateY(0) scale(1) rotate(0deg);
+}
+
+.photoDeck__card.is-prev{
+  z-index: 5;
+  transform: translateX(-18px) translateY(4px) scale(0.92) rotate(-6deg);
+  opacity: 0.85;
+}
+
+.photoDeck__card.is-next{
+  z-index: 4;
+  transform: translateX(18px) translateY(4px) scale(0.92) rotate(6deg);
+  opacity: 0.85;
+}
+
+.photoDeck__card.is-hidden{
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+  pointer-events: none !important;
+}
+
+.photoDeck__imgWrap{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 9px;
+  overflow: hidden;
+  background: #f7e3d6;
+  pointer-events: auto !important;
+}
+
+.photoDeck__img{
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
   display: block;
-  border: 2px solid #fff3ea;
-  background: #f9e2d2;
+  pointer-events: auto !important;
 }
 
-.photoCard__heartBadge{
+.photoDeck__badge{
   position: absolute;
-  right: -2px;
-  bottom: -2px;
-  width: 26px;
-  height: 26px;
+  right: 6px;
+  bottom: 6px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: linear-gradient(135deg, #ff5f86, #d4235c);
   color: #fff;
-  font-size: 13px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  border: 2px solid #fff;
+  border: 1.5px solid #fff;
+}
+
+.photoDeck__caption{
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font: 600 11px/1 "Great Vibes", cursive, Georgia, serif;
+  color: #8c2043;
+  letter-spacing: .04em;
+}
+
+.photoDeck__btn{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 210, 220, 0.5);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 230, 238, 0.95));
+  color: #a8154a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(140, 20, 55, 0.2);
+  transition: transform 0.2s, background 0.2s, opacity 0.2s;
+}
+
+.photoDeck__btn:hover{
+  transform: scale(1.12);
+  background: #fff;
+  color: #d4235c;
+  box-shadow: 0 6px 16px rgba(160, 18, 60, 0.35);
+}
+
+.photoDeck__btn:disabled{
+  opacity: 0.3;
+  cursor: default;
+  transform: none;
+}
+
+.photoDeck__dots{
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.photoDeck__dot{
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(180, 40, 80, 0.3);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s, width 0.2s;
+}
+
+.photoDeck__dot.is-active{
+  width: 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff6f97, #d4235c);
+}
+
+.photoDeck__hint{
+  font-size: 11px;
+  color: rgba(135, 30, 65, 0.78);
+  font-style: italic;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 /* ============================================================
@@ -796,11 +916,11 @@ body{
   color: #fff;
 }
 
-/* Photo Upload Box */
+/* Multi Photo Grid Upload */
 .photoUploadBox{
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  gap: 12px;
   padding: 14px;
   background: rgba(0, 0, 0, 0.25);
   border: 1px dashed rgba(255, 180, 200, 0.3);
@@ -813,33 +933,69 @@ body{
   background: rgba(255, 95, 134, 0.1);
 }
 
-.photoPreviewWrap{
-  position: relative;
-  width: 72px;
-  height: 72px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.06);
-  border: 2px solid rgba(255, 200, 210, 0.4);
+.multiPhotoGrid{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
 }
 
-.photoPreview{
+.multiPhotoGrid:empty{
+  display: none;
+}
+
+.multiPhotoGrid__item{
+  position: relative;
+  width: 68px;
+  height: 68px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 200, 210, 0.4);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  background: #2a1820;
+}
+
+.multiPhotoGrid__img{
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+.multiPhotoGrid__remove{
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(212, 35, 92, 0.9);
+  color: #fff;
+  border: none;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  transition: transform 0.15s, background 0.15s;
+}
+
+.multiPhotoGrid__remove:hover{
+  transform: scale(1.15);
+  background: #ff2d62;
+}
+
 .photoPlaceholder{
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: #ffb8ca;
   text-align: center;
-  padding: 4px;
+  padding: 12px 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .photoPlaceholder span{
@@ -933,4 +1089,217 @@ body{
   background: rgba(255, 255, 255, 0.15);
   color: #fff;
 }
+
+/* ============================================================
+   LIGHTBOX PHOTO VIEWER MODAL
+   ============================================================ */
+.lightbox{
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.lightbox[hidden]{
+  display: none !important;
+}
+
+.lightbox__backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 5, 12, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.lightbox__card{
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.lightbox__close{
+  position: absolute;
+  top: -46px;
+  right: -10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.lightbox__close:hover{
+  background: rgba(255, 95, 134, 0.8);
+  transform: scale(1.1);
+}
+
+.lightbox__imgContainer{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 82vw;
+  max-height: 68vh;
+}
+
+.lightbox__frame{
+  position: relative;
+  border-radius: 18px;
+  padding: 10px 10px 32px 10px;
+  background: #fffdfa;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(255, 180, 200, 0.3);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.lightbox__frame img{
+  max-width: 78vw;
+  max-height: 58vh;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
+
+.lightbox__badge{
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font: 600 13px/1 "Great Vibes", cursive, Georgia, serif;
+  color: #a8154a;
+  letter-spacing: .06em;
+}
+
+.lightbox__nav{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.lightbox__nav:hover{
+  background: linear-gradient(135deg, #ff5f86, #d4235c);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox__nav--prev{
+  left: -54px;
+}
+
+.lightbox__nav--next{
+  right: -54px;
+}
+
+.lightbox__footer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.lightbox__counter{
+  font-size: 13px;
+  color: #ffe0e8;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 200, 215, 0.2);
+}
+
+.lightbox__thumbs{
+  display: flex;
+  gap: 8px;
+  max-width: 80vw;
+  overflow-x: auto;
+  padding: 4px;
+}
+
+.lightbox__thumb{
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s, border-color 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.lightbox__thumb img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lightbox__thumb.is-active{
+  opacity: 1;
+  border-color: #ff5f86;
+  transform: scale(1.1);
+}
+
+@media (max-width: 640px) {
+  .lightbox {
+    padding: 10px;
+  }
+  .lightbox__card {
+    max-width: 98vw;
+    max-height: 96vh;
+  }
+  .lightbox__nav--prev {
+    left: 2px;
+    background: rgba(20, 5, 12, 0.7);
+    border-color: rgba(255, 200, 215, 0.4);
+  }
+  .lightbox__nav--next {
+    right: 2px;
+    background: rgba(20, 5, 12, 0.7);
+    border-color: rgba(255, 200, 215, 0.4);
+  }
+  .lightbox__close {
+    top: -42px;
+    right: 0px;
+  }
+  .lightbox__frame img {
+    max-width: 88vw;
+    max-height: 54vh;
+  }
+  .lightbox__thumbs {
+    max-width: 92vw;
+  }
+}
+
 

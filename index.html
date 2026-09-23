@@ -197,12 +197,27 @@
 
     <!-- ACT 4 — THE HAND-LETTERED WISH (over the tree) ------------------------ -->
     <div class="wish" id="wish" aria-hidden="true">
-      <div class="wish__photoCard" id="wishPhotoCard" hidden>
-        <div class="photoCard__frame">
-          <div class="photoCard__glow"></div>
-          <img id="friendPhoto" class="photoCard__img" src="" alt="Friend's Photo" />
-          <div class="photoCard__heartBadge" title="Made with love">♥</div>
+      <div class="wish__photoDeck" id="wishPhotoDeck" hidden>
+        <div class="photoDeck__container">
+          <button class="photoDeck__btn photoDeck__btn--prev" id="photoNavPrev" type="button" aria-label="Previous photo">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+
+          <div class="photoDeck__stack" id="photoDeckStack">
+            <!-- Dynamically populated photo frames -->
+          </div>
+
+          <button class="photoDeck__btn photoDeck__btn--next" id="photoNavNext" type="button" aria-label="Next photo">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
         </div>
+
+        <div class="photoDeck__dots" id="photoDeckDots"></div>
+        <div class="photoDeck__hint">Tap photo to view full size ✨</div>
       </div>
       <p class="wish__eyebrow" id="wEyebrow">a little something, for you</p>
       <div class="wish__heroWrap"><h1 class="wish__hero" id="wHero">Happy Birthday</h1></div>
@@ -235,7 +250,7 @@
         <div class="cModal__header">
           <div class="cModal__headerTitle">
             <h2 id="modalTitle">🎁 Wish Your Friends</h2>
-            <p>Customize friend picture &amp; wishes on the fly</p>
+            <p>Add friend pictures &amp; customized wishes</p>
           </div>
           <button class="cModal__closeBtn" id="closeCustomizerBtn" type="button" aria-label="Close dialog">&times;</button>
         </div>
@@ -260,26 +275,29 @@
             </div>
           </div>
 
-          <!-- Friend Photo Upload -->
+          <!-- Friend Photos Upload (Multiple) -->
           <div class="cFormGroup">
-            <label class="cFormLabel">Friend's Picture</label>
+            <label class="cFormLabel">Friend's Photos (Memory Album)</label>
             <div class="photoUploadBox" id="photoDropZone">
-              <input type="file" id="friendPhotoInput" accept="image/*" class="sr-only" />
-              <div class="photoPreviewWrap">
-                <img id="modalPhotoPreview" class="photoPreview" src="" alt="Preview" hidden />
-                <div id="photoPlaceholder" class="photoPlaceholder">
-                  <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <rect x="3" y="3" width="18" height="18" rx="5" ry="5"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <polyline points="21 15 16 10 5 21"/>
-                  </svg>
-                  <span>Click or drag photo here</span>
-                  <small>JPG, PNG, WebP up to 5MB</small>
-                </div>
+              <input type="file" id="friendPhotoInput" accept="image/*" multiple class="sr-only" />
+              
+              <div class="multiPhotoGrid" id="multiPhotoGrid">
+                <!-- Dynamically populated photo thumbnails -->
               </div>
+
+              <div id="photoPlaceholder" class="photoPlaceholder">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <rect x="3" y="3" width="18" height="18" rx="5" ry="5"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <span>Click or drag multiple photos here</span>
+                <small>Upload your favorite pictures &amp; memory photos</small>
+              </div>
+
               <div class="photoBoxActions">
-                <button type="button" class="btnSm" id="btnBrowsePhoto">Choose Photo</button>
-                <button type="button" class="btnSm btnSm--danger" id="btnRemovePhoto" hidden>Remove</button>
+                <button type="button" class="btnSm" id="btnBrowsePhoto">📷 Add Photos</button>
+                <button type="button" class="btnSm btnSm--danger" id="btnClearAllPhotos" hidden>Clear All</button>
               </div>
             </div>
           </div>
@@ -336,6 +354,29 @@
           <button type="button" class="btnPri" id="btnSaveWish">
             ✨ Save &amp; Play Wish
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FULLSCREEN PHOTO LIGHTBOX -->
+    <div class="lightbox" id="photoLightbox" hidden aria-modal="true" role="dialog" aria-label="Photo Gallery Lightbox">
+      <div class="lightbox__backdrop" id="lightboxBackdrop"></div>
+      <div class="lightbox__card">
+        <button class="lightbox__close" id="lightboxClose" type="button" aria-label="Close photo modal">&times;</button>
+        <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" type="button" aria-label="Previous photo">‹</button>
+        
+        <div class="lightbox__imgContainer">
+          <div class="lightbox__frame">
+            <img id="lightboxImg" src="" alt="Birthday Memory Photo" />
+            <div class="lightbox__badge" id="lightboxBadge">♥ Birthday Memory</div>
+          </div>
+        </div>
+
+        <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" type="button" aria-label="Next photo">›</button>
+        
+        <div class="lightbox__footer">
+          <div class="lightbox__counter" id="lightboxCounter">1 / 1</div>
+          <div class="lightbox__thumbs" id="lightboxThumbs"></div>
         </div>
       </div>
     </div>

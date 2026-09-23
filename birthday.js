@@ -567,7 +567,8 @@ const DEFAULT_FRIENDS = [
   {
     id: 'default_1',
     name: 'Bestie',
-    photo: '',
+    photos: ['/photos/memory1.jpg', '/photos/memory2.jpg', '/photos/memory3.jpg'],
+    photo: '/photos/memory1.jpg',
     wLine1: 'Happy',
     wLine2: 'Birthday!',
     wHero: 'Happy Birthday',
@@ -614,7 +615,11 @@ const PRESET_MESSAGES = {
 
 let savedFriends = [];
 let activeFriendId = null;
-let currentPhotoData = '';
+let currentPhotos = [];
+let modalPhotos = [];
+let activePhotoIndex = 0;
+let deckSlideshowTimer = null;
+let lightboxActiveIdx = 0;
 
 function loadFriendsList(){
   try {
@@ -637,10 +642,13 @@ function parseURLParams(){
   const params = new URLSearchParams(window.location.search);
   const name = params.get('name');
   if (name){
+    const pics = params.get('pics');
+    const photoArr = pics ? pics.split(',') : (params.get('pic') ? [params.get('pic')] : []);
     return {
       id: 'url_' + Date.now(),
       name: name,
-      photo: params.get('pic') || '',
+      photos: photoArr,
+      photo: photoArr[0] || '',
       wLine1: params.get('w1') || 'Happy',
       wLine2: params.get('w2') || (`Birthday ${name}!`),
       wHero: params.get('hero') || (`Happy Birthday ${name}`),
@@ -667,33 +675,296 @@ function applyWishData(data){
 
   rebuildKineticChars();
 
-  // Friend photo
-  const photoCard = $('wishPhotoCard');
-  const friendImg = $('friendPhoto');
-  if (data.photo && friendImg && photoCard){
-    friendImg.src = data.photo;
-    photoCard.hidden = false;
-  } else if (photoCard){
-    photoCard.hidden = true;
+  // Multi-Photo album
+  currentPhotos = data.photos && data.photos.length > 0 ? [...data.photos] : (data.photo ? [data.photo] : []);
+  activePhotoIndex = 0;
+  renderPhotoDeck();
+}
+
+/* ============================================================
+   MULTI-PHOTO DECK & CAROUSEL (ACT 4)
+   ============================================================ */
+function renderPhotoDeck(){
+  const photoDeck = $('wishPhotoDeck');
+  const stackEl = $('photoDeckStack');
+  const dotsEl = $('photoDeckDots');
+  const prevBtn = $('photoNavPrev');
+  const nextBtn = $('photoNavNext');
+  
+  if (!photoDeck || !stackEl) return;
+
+  if (!currentPhotos || currentPhotos.length === 0){
+    photoDeck.hidden = true;
+    stopDeckSlideshow();
+    return;
+  }
+
+  photoDeck.hidden = false;
+  stackEl.innerHTML = '';
+  if (dotsEl) dotsEl.innerHTML = '';
+
+  currentPhotos.forEach((src, idx) => {
+    const card = document.createElement('div');
+    card.className = 'photoDeck__card';
+    card.dataset.index = idx;
+
+    card.innerHTML = `
+      <div class="photoDeck__imgWrap">
+        <img class="photoDeck__img" src="${src}" alt="Memory Photo ${idx + 1}" />
+        <div class="photoDeck__badge">♥</div>
+      </div>
+      <div class="photoDeck__caption">Memory #${idx + 1}</div>
+    `;
+
+    const triggerOpen = (e) => {
+      if (e) {
+        e.stopPropagation();
+      }
+      openLightbox(idx);
+    };
+
+    card.addEventListener('click', triggerOpen);
+    card.addEventListener('pointerup', (e) => {
+      // Prevent drag vs click conflicts
+      if (e.pointerType === 'touch') {
+        triggerOpen(e);
+      }
+    });
+
+    stackEl.appendChild(card);
+
+    if (dotsEl && currentPhotos.length > 1){
+      const dot = document.createElement('span');
+      dot.className = `photoDeck__dot ${idx === activePhotoIndex ? 'is-active' : ''}`;
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        activePhotoIndex = idx;
+        updateDeckStack();
+      });
+      dotsEl.appendChild(dot);
+    }
+  });
+
+  if (prevBtn){
+    prevBtn.disabled = currentPhotos.length <= 1;
+    prevBtn.onclick = (e) => {
+      e.stopPropagation();
+      activePhotoIndex = (activePhotoIndex - 1 + currentPhotos.length) % currentPhotos.length;
+      updateDeckStack();
+    };
+  }
+
+  if (nextBtn){
+    nextBtn.disabled = currentPhotos.length <= 1;
+    nextBtn.onclick = (e) => {
+      e.stopPropagation();
+      activePhotoIndex = (activePhotoIndex + 1) % currentPhotos.length;
+      updateDeckStack();
+    };
+  }
+
+  updateDeckStack();
+  startDeckSlideshow();
+}
+
+function updateDeckStack(){
+  const stackEl = $('photoDeckStack');
+  const dotsEl = $('photoDeckDots');
+  if (!stackEl) return;
+
+  const cards = stackEl.querySelectorAll('.photoDeck__card');
+  const dots = dotsEl ? dotsEl.querySelectorAll('.photoDeck__dot') : [];
+  const total = currentPhotos.length;
+
+  if (total === 0) return;
+
+  if (activePhotoIndex >= total) activePhotoIndex = 0;
+  if (activePhotoIndex < 0) activePhotoIndex = total - 1;
+
+  cards.forEach((card, idx) => {
+    card.classList.remove('is-active', 'is-prev', 'is-next', 'is-hidden');
+
+    if (idx === activePhotoIndex){
+      card.classList.add('is-active');
+    } else if (idx === (activePhotoIndex - 1 + total) % total){
+      card.classList.add('is-prev');
+    } else if (idx === (activePhotoIndex + 1) % total){
+      card.classList.add('is-next');
+    } else {
+      card.classList.add('is-hidden');
+    }
+  });
+
+  dots.forEach((dot, idx) => {
+    dot.classList.toggle('is-active', idx === activePhotoIndex);
+  });
+}
+
+function startDeckSlideshow(){
+  stopDeckSlideshow();
+  if (currentPhotos.length <= 1) return;
+  deckSlideshowTimer = setInterval(() => {
+    activePhotoIndex = (activePhotoIndex + 1) % currentPhotos.length;
+    updateDeckStack();
+  }, 4500);
+}
+
+function stopDeckSlideshow(){
+  if (deckSlideshowTimer){
+    clearInterval(deckSlideshowTimer);
+    deckSlideshowTimer = null;
   }
 }
 
-function updatePhotoPreview(src){
-  const photoPreview = $('modalPhotoPreview');
-  const photoPlaceholder = $('photoPlaceholder');
-  const removePhotoBtn = $('btnRemovePhoto');
-  if (!photoPreview || !photoPlaceholder || !removePhotoBtn) return;
-  if (src){
-    photoPreview.src = src;
-    photoPreview.hidden = false;
-    photoPlaceholder.hidden = true;
-    removePhotoBtn.hidden = false;
-  } else {
-    photoPreview.src = '';
-    photoPreview.hidden = true;
-    photoPlaceholder.hidden = false;
-    removePhotoBtn.hidden = true;
+/* ============================================================
+   LIGHTBOX PHOTO VIEWER MODAL
+   ============================================================ */
+function openLightbox(idx){
+  stopDeckSlideshow();
+  lightboxActiveIdx = idx;
+  const lb = $('photoLightbox');
+  if (!lb) return;
+  
+  lb.hidden = false;
+  lb.style.display = 'flex';
+  updateLightbox();
+}
+
+function closeLightbox(){
+  const lb = $('photoLightbox');
+  if (lb) {
+    lb.hidden = true;
+    lb.style.display = 'none';
   }
+  startDeckSlideshow();
+}
+
+function updateLightbox(){
+  const img = $('lightboxImg');
+  const counter = $('lightboxCounter');
+  const thumbs = $('lightboxThumbs');
+  if (!img) return;
+
+  if (!currentPhotos || currentPhotos.length === 0){
+    closeLightbox();
+    return;
+  }
+
+  if (lightboxActiveIdx >= currentPhotos.length) lightboxActiveIdx = 0;
+  if (lightboxActiveIdx < 0) lightboxActiveIdx = currentPhotos.length - 1;
+
+  img.src = currentPhotos[lightboxActiveIdx];
+  if (counter) counter.textContent = `${lightboxActiveIdx + 1} / ${currentPhotos.length}`;
+
+  if (thumbs){
+    thumbs.innerHTML = '';
+    currentPhotos.forEach((src, idx) => {
+      const t = document.createElement('div');
+      t.className = `lightbox__thumb ${idx === lightboxActiveIdx ? 'is-active' : ''}`;
+      t.innerHTML = `<img src="${src}" alt="Thumb ${idx + 1}" />`;
+      t.addEventListener('click', () => {
+        lightboxActiveIdx = idx;
+        updateLightbox();
+      });
+      thumbs.appendChild(t);
+    });
+  }
+}
+
+function initLightboxEvents(){
+  const closeBtn = $('lightboxClose');
+  const backdrop = $('lightboxBackdrop');
+  const prevBtn = $('lightboxPrev');
+  const nextBtn = $('lightboxNext');
+
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  if (backdrop) backdrop.addEventListener('click', closeLightbox);
+
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    lightboxActiveIdx = (lightboxActiveIdx - 1 + currentPhotos.length) % currentPhotos.length;
+    updateLightbox();
+  });
+
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    lightboxActiveIdx = (lightboxActiveIdx + 1) % currentPhotos.length;
+    updateLightbox();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    const lb = $('photoLightbox');
+    if (!lb || lb.hidden) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft'){
+      lightboxActiveIdx = (lightboxActiveIdx - 1 + currentPhotos.length) % currentPhotos.length;
+      updateLightbox();
+    }
+    if (e.key === 'ArrowRight'){
+      lightboxActiveIdx = (lightboxActiveIdx + 1) % currentPhotos.length;
+      updateLightbox();
+    }
+  });
+}
+
+/* ============================================================
+   MULTI-PHOTO CUSTOMIZER UPLOAD GRID
+   ============================================================ */
+function renderMultiPhotoGrid(){
+  const grid = $('multiPhotoGrid');
+  const placeholder = $('photoPlaceholder');
+  const clearBtn = $('btnClearAllPhotos');
+
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  if (modalPhotos.length > 0){
+    if (placeholder) placeholder.hidden = true;
+    if (clearBtn) clearBtn.hidden = false;
+
+    modalPhotos.forEach((src, idx) => {
+      const item = document.createElement('div');
+      item.className = 'multiPhotoGrid__item';
+      item.innerHTML = `
+        <img class="multiPhotoGrid__img" src="${src}" alt="Photo ${idx + 1}" />
+        <button type="button" class="multiPhotoGrid__remove" title="Remove photo">&times;</button>
+      `;
+      item.querySelector('.multiPhotoGrid__remove').addEventListener('click', () => {
+        modalPhotos.splice(idx, 1);
+        renderMultiPhotoGrid();
+      });
+      grid.appendChild(item);
+    });
+  } else {
+    if (placeholder) placeholder.hidden = false;
+    if (clearBtn) clearBtn.hidden = true;
+  }
+}
+
+function handleMultiplePhotoFiles(files){
+  if (!files || !files.length) return;
+  Array.from(files).forEach((file) => {
+    if (!file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 600;
+        let w = img.width, h = img.height;
+        if (w > maxDim || h > maxDim){
+          if (w > h){ h = Math.round((h * maxDim) / w); w = maxDim; }
+          else { w = Math.round((w * maxDim) / h); h = maxDim; }
+        }
+        const cv = document.createElement('canvas');
+        cv.width = w; cv.height = h;
+        const c = cv.getContext('2d');
+        c.drawImage(img, 0, 0, w, h);
+        const dataUrl = cv.toDataURL('image/jpeg', 0.85);
+        modalPhotos.push(dataUrl);
+        renderMultiPhotoGrid();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 function populateModalForm(data){
@@ -713,8 +984,8 @@ function populateModalForm(data){
   if (inputKSub) inputKSub.value = data.kSub || '';
   if (inputWSub) inputWSub.value = data.wSub || '';
   
-  currentPhotoData = data.photo || '';
-  updatePhotoPreview(currentPhotoData);
+  modalPhotos = data.photos && data.photos.length > 0 ? [...data.photos] : (data.photo ? [data.photo] : []);
+  renderMultiPhotoGrid();
 }
 
 function renderFriendsList(){
@@ -742,6 +1013,7 @@ function renderFriendsList(){
     activeFriendId = 'new_' + Date.now();
     populateModalForm({
       name: '',
+      photos: [],
       wLine1: 'Happy',
       wLine2: 'Birthday!',
       wHero: 'Happy Birthday',
@@ -754,32 +1026,10 @@ function renderFriendsList(){
   friendsListEl.appendChild(addBtn);
 }
 
-function handlePhotoFile(file){
-  if (!file || !file.type.startsWith('image/')) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const img = new Image();
-    img.onload = () => {
-      const maxDim = 500;
-      let w = img.width, h = img.height;
-      if (w > maxDim || h > maxDim){
-        if (w > h){ h = Math.round((h * maxDim) / w); w = maxDim; }
-        else { w = Math.round((w * maxDim) / h); h = maxDim; }
-      }
-      const cv = document.createElement('canvas');
-      cv.width = w; cv.height = h;
-      const c = cv.getContext('2d');
-      c.drawImage(img, 0, 0, w, h);
-      currentPhotoData = cv.toDataURL('image/jpeg', 0.85);
-      updatePhotoPreview(currentPhotoData);
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
 function initCustomizer(){
   loadFriendsList();
+  initLightboxEvents();
+  
   const urlFriend = parseURLParams();
   let currentFriend = urlFriend || savedFriends.find((f) => f.id === activeFriendId) || savedFriends[0];
   
@@ -794,7 +1044,7 @@ function initCustomizer(){
   const photoInput = $('friendPhotoInput');
   const dropZone = $('photoDropZone');
   const browseBtn = $('btnBrowsePhoto');
-  const removePhotoBtn = $('btnRemovePhoto');
+  const clearAllPhotosBtn = $('btnClearAllPhotos');
 
   const inputName = $('inputFriendName');
   const inputHero = $('inputwHero');
@@ -824,12 +1074,12 @@ function initCustomizer(){
   // Photo handlers
   if (browseBtn && photoInput) browseBtn.addEventListener('click', () => photoInput.click());
   if (photoInput) photoInput.addEventListener('change', (e) => {
-    if (e.target.files && e.target.files[0]) handlePhotoFile(e.target.files[0]);
+    if (e.target.files && e.target.files.length) handleMultiplePhotoFiles(e.target.files);
   });
 
-  if (removePhotoBtn) removePhotoBtn.addEventListener('click', () => {
-    currentPhotoData = '';
-    updatePhotoPreview('');
+  if (clearAllPhotosBtn) clearAllPhotosBtn.addEventListener('click', () => {
+    modalPhotos = [];
+    renderMultiPhotoGrid();
   });
 
   if (dropZone){
@@ -838,7 +1088,7 @@ function initCustomizer(){
     dropZone.addEventListener('drop', (e) => {
       e.preventDefault();
       dropZone.classList.remove('is-dragover');
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) handlePhotoFile(e.dataTransfer.files[0]);
+      if (e.dataTransfer.files && e.dataTransfer.files.length) handleMultiplePhotoFiles(e.dataTransfer.files);
     });
   }
 
@@ -876,7 +1126,8 @@ function initCustomizer(){
       const friendObj = {
         id: activeFriendId || ('friend_' + Date.now()),
         name: nameVal,
-        photo: currentPhotoData,
+        photos: [...modalPhotos],
+        photo: modalPhotos[0] || '',
         wLine1: inputLine1.value.trim() || 'Happy',
         wLine2: inputLine2.value.trim() || 'Birthday!',
         wHero: inputHero.value.trim() || `Happy Birthday ${nameVal}`,
@@ -915,6 +1166,10 @@ function initCustomizer(){
       url.searchParams.set('eyebrow', inputEyebrow.value.trim() || `a little something, for ${nameVal}`);
       url.searchParams.set('kSub', inputKSub.value.trim() || 'to someone worth celebrating');
       url.searchParams.set('wSub', inputWSub.value.trim() || "here's to a year that blooms");
+
+      if (modalPhotos.length > 0){
+        url.searchParams.set('pics', modalPhotos.slice(0, 3).join(','));
+      }
 
       navigator.clipboard.writeText(url.toString()).then(() => {
         const txt = $('shareBtnText');
@@ -1279,9 +1534,15 @@ function resize(){
   if (reduceMotion){ drawFinal(); return; }
   if (played && filmTL){
     const at = filmTL.time(); const active = filmTL.isActive();
+    const isFinished = at >= (filmTL.duration() - 0.05);
     filmTL = buildFilm(shotGeom());
-    filmTL.pause(at);
-    if (active) filmTL.play(at);
+    if (isFinished) {
+      filmTL.pause(filmTL.duration());
+      gsap.set([bloom, flood, field], { autoAlpha: 0 });
+    } else {
+      filmTL.pause(at);
+      if (active) filmTL.play(at);
+    }
   } else {
     refreshRig(); setDraw(0);
   }
