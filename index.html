@@ -223,6 +223,51 @@
       <div class="wish__heroWrap"><h1 class="wish__hero" id="wHero">Happy Birthday</h1></div>
       <span class="wish__rule" id="wRule"></span>
       <p class="wish__sub" id="wSub">here&rsquo;s to a year that blooms</p>
+      
+      <!-- "Read Your Letter" button — appears after tree scene -->
+      <button class="wish__letterBtn" id="openLetterBtn" type="button" hidden>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        <span>Read Your Letter ♥</span>
+      </button>
+    </div>
+
+    <!-- ============================================================
+         ACT 5 — THE PERSONAL LETTER BOOK (multi-page flip-through)
+         ============================================================ -->
+    <div class="letterBook" id="letterBook" hidden>
+      <div class="letterBook__backdrop" id="letterBookBackdrop"></div>
+      <div class="letterBook__container">
+        <!-- Close button -->
+        <button class="letterBook__close" id="letterBookClose" type="button" aria-label="Close letter">&times;</button>
+
+        <!-- The book -->
+        <div class="letterBook__book" id="letterBookPages">
+          <!-- Pages are dynamically injected by JS -->
+        </div>
+
+        <!-- Navigation -->
+        <div class="letterBook__nav">
+          <button class="letterBook__navBtn" id="letterPrev" type="button" aria-label="Previous page">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            <span>Prev</span>
+          </button>
+          <div class="letterBook__pageIndicator" id="letterPageIndicator">Page 1 / 5</div>
+          <button class="letterBook__navBtn" id="letterNext" type="button" aria-label="Next page">
+            <span>Next</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Page dots -->
+        <div class="letterBook__dots" id="letterDots"></div>
+      </div>
     </div>
 
     <!-- Floating Top Bar Trigger: Customize Wish & Add Friend Photo -->
@@ -340,6 +385,21 @@
           <div class="cFormGroup">
             <label for="inputWSub" class="cFormLabel">Final Wish Note (Act 4)</label>
             <input type="text" id="inputWSub" class="cInput" placeholder="e.g. here's to a year that blooms" />
+          </div>
+
+          <!-- PERSONAL LETTER PAGES (minimum 5) -->
+          <div class="cFormGroup">
+            <label class="cFormLabel">
+              ✉️ Personal Letter Pages
+              <small class="cFormHint">(minimum 5 pages — write your heart out!)</small>
+            </label>
+            <div class="letterPagesEditor" id="letterPagesEditor">
+              <!-- Dynamically populated page textareas -->
+            </div>
+            <div class="letterPagesActions">
+              <button type="button" class="btnSm" id="btnAddLetterPage">+ Add Page</button>
+              <span class="letterPageCount" id="letterPageCount">5 pages</span>
+            </div>
           </div>
         </div>
 

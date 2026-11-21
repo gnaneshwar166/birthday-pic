@@ -574,7 +574,8 @@ const DEFAULT_FRIENDS = [
     wHero: 'Happy Birthday',
     eyebrow: 'a little something, for my best friend',
     kSub: 'to someone worth celebrating every day',
-    wSub: "here's to a year that blooms with joy"
+    wSub: "here's to a year that blooms with joy",
+    letterPages: PRESET_MESSAGES.bestie.letterPages
   }
 ];
 
@@ -585,7 +586,14 @@ const PRESET_MESSAGES = {
     wHero: 'Happy Birthday',
     eyebrow: 'a little something, for my best friend',
     kSub: 'to someone worth celebrating every day',
-    wSub: "here's to a year that blooms with endless joy"
+    wSub: "here's to a year that blooms with endless joy",
+    letterPages: [
+      { title: 'Dear Bestie', body: "Where do I even begin? You're the one person who's been there through every laugh, every cry, and every late-night conversation that somehow lasted until sunrise.\n\nI know life hasn't always been easy, but you've faced every challenge with a strength that inspires me every single day." },
+      { title: 'Our Memories', body: "Remember that time we got completely lost on that road trip and ended up at the most amazing little café? Or when we stayed up all night watching terrible movies and laughing until our stomachs hurt?\n\nThose memories are my treasures. Every single one of them." },
+      { title: 'What You Mean To Me', body: "You're not just my friend — you're my chosen family. The person I can be completely, unapologetically myself around. You see me at my worst and still somehow think I'm at my best.\n\nThat kind of love? It's rare. And I never take it for granted." },
+      { title: 'My Wish For You', body: "On this birthday, I wish you everything your beautiful heart desires. May this year bring you adventures that take your breath away, love that fills your soul, and moments that make you feel truly alive.\n\nYou deserve the world and then some." },
+      { title: 'Forever & Always', body: "Happy Birthday, my incredible best friend. Thank you for being YOU — perfectly, wonderfully, beautifully you.\n\nHere's to another year of making memories together. I love you more than words could ever express.\n\nForever yours,\nYour Bestie ♥" }
+    ]
   },
   sweet: {
     wLine1: 'Wishing You',
@@ -593,7 +601,14 @@ const PRESET_MESSAGES = {
     wHero: 'Happy Birthday',
     eyebrow: 'a little something, wrapped with love',
     kSub: 'to a truly wonderful soul',
-    wSub: 'may your day bloom with happiness & light'
+    wSub: 'may your day bloom with happiness & light',
+    letterPages: [
+      { title: 'My Dearest Friend', body: "Today is YOUR day, and I want you to feel every ounce of love that surrounds you. Because you are so, so loved.\n\nFrom the moment you came into my life, everything became a little brighter, a little warmer, a little more magical." },
+      { title: 'Your Beautiful Soul', body: "There's something about you that lights up every room you walk into. It's not just your smile (though that's pretty incredible too) — it's your heart.\n\nThe way you care about others, the way you listen, the way you love — it's beautiful." },
+      { title: 'The Little Things', body: "I love the way your eyes light up when you talk about something you're passionate about. I love your laugh — the real one, not the polite one.\n\nI love how you always know exactly what to say when I need to hear it most. These little things? They mean everything." },
+      { title: 'A Birthday Promise', body: "I promise to always be there — in the celebrations and in the quiet moments. When the world feels too heavy, I'll help you carry it. When you forget how amazing you are, I'll remind you.\n\nThat's my birthday promise to you." },
+      { title: 'With All My Love', body: "May this birthday mark the beginning of your most beautiful chapter yet. May every sunrise bring new hope, every sunset bring peace, and every moment in between bring joy.\n\nHappy Birthday, sweetheart. You are endlessly loved.\n\nWith all my heart ♥" }
+    ]
   },
   poetic: {
     wLine1: 'Celebrate',
@@ -601,7 +616,14 @@ const PRESET_MESSAGES = {
     wHero: 'Happy Birthday',
     eyebrow: 'as another golden year unfolds',
     kSub: 'to a star that shines brighter than all',
-    wSub: "here's to a year that blooms in radiant grace"
+    wSub: "here's to a year that blooms in radiant grace",
+    letterPages: [
+      { title: 'A Star Was Born', body: "On this day, the universe conspired to create something extraordinary — you. The stars aligned, the winds whispered, and into this world came a soul unlike any other.\n\nAnd what a magnificent soul you are." },
+      { title: 'Written in the Stars', body: "If I could write your story across the sky, it would be the most beautiful constellation — a map of courage, kindness, and infinite light.\n\nEvery chapter of your life has been a poem, and every verse has been worth reading." },
+      { title: 'The Garden of You', body: "You are a garden in perpetual bloom. Even in winter, when the world turns cold and grey, you find a way to blossom.\n\nYour resilience is the soil. Your hope is the rain. Your love is the sunlight that makes everything grow." },
+      { title: 'Time & Tide', body: "As the tides of time carry us forward, some things remain constant — the North Star in my sky, the anchor in my storm, the light in my darkness.\n\nThat constant is you.\n\nThrough every season, every storm, every sunrise — you remain." },
+      { title: 'An Eternal Wish', body: "So on this birthday, I don't just wish you happiness — I wish you wonder. The kind that makes you stop and stare at the sunset. The kind that makes your heart race with possibility.\n\nMay you forever bloom, forever shine, forever be.\n\nWith love beyond measure ♥" }
+    ]
   },
   fun: {
     wLine1: 'Time To',
@@ -609,7 +631,14 @@ const PRESET_MESSAGES = {
     wHero: 'Happy Birthday',
     eyebrow: 'get ready to blow out the candles!',
     kSub: 'the legend was born on this day',
-    wSub: 'cheers to extra cake, laughter & good times'
+    wSub: 'cheers to extra cake, laughter & good times',
+    letterPages: [
+      { title: "It's Party Time! 🎉", body: "HAPPY BIRTHDAY, YOU ABSOLUTE LEGEND! 🎂\n\nAnother year older, another year wiser (debatable 😂), and another year more awesome. Let's be real — you're aging like fine wine. Actually, scratch that. You're aging like pizza — somehow getting better every time." },
+      { title: 'The Highlight Reel', body: "Let's talk about your greatest hits this year:\n\n• That time you tripped over literally nothing and played it off like a dance move? ICONIC. 💃\n• Your cooking experiments that ranged from 'actually delicious' to 'is this a crime?'\n• All those 'I'll go to bed early tonight' lies you told yourself\n\nNever change. 😂" },
+      { title: 'Birthday Commandments', body: "On this sacred day, I hereby declare the following Birthday Commandments:\n\n1. Thou SHALT eat cake for breakfast 🍰\n2. Thou SHALT NOT count calories today\n3. Thou SHALT take at least 47 selfies 📸\n4. Thou SHALT dance like nobody's watching\n5. Thou SHALT accept ALL compliments without deflecting" },
+      { title: "What I Won't Say", body: "I won't say something mushy like 'you're the best person I know' because... okay fine, YOU ARE.\n\nI won't tell you that my life is infinitely better because of you, or that you make even the most boring days fun, or that your laugh is literally my favorite sound.\n\nOh wait. I just did. 😏" },
+      { title: "Here's To You! 🥂", body: "Happy Birthday to the person who:\n• Makes everything more fun\n• Has the best meme game\n• Can turn any situation into a good time\n• Is low-key (high-key) the best human ever\n\nNow go celebrate like the absolute LEGEND you are! 🎉🎊🥳\n\nLove you to the moon and back! 🚀♥" }
+    ]
   }
 };
 
@@ -620,6 +649,9 @@ let modalPhotos = [];
 let activePhotoIndex = 0;
 let deckSlideshowTimer = null;
 let lightboxActiveIdx = 0;
+let currentLetterPages = [];
+let currentLetterPageIdx = 0;
+let modalLetterPages = [];
 
 function loadFriendsList(){
   try {
@@ -679,6 +711,15 @@ function applyWishData(data){
   currentPhotos = data.photos && data.photos.length > 0 ? [...data.photos] : (data.photo ? [data.photo] : []);
   activePhotoIndex = 0;
   renderPhotoDeck();
+
+  // Personal letter pages
+  currentLetterPages = data.letterPages && data.letterPages.length > 0 ? [...data.letterPages] : [];
+  currentLetterPageIdx = 0;
+  
+  const letterBtn = $('openLetterBtn');
+  if (letterBtn) {
+    letterBtn.hidden = currentLetterPages.length === 0;
+  }
 }
 
 /* ============================================================
@@ -906,6 +947,215 @@ function initLightboxEvents(){
 }
 
 /* ============================================================
+   ACT 5 — PERSONAL LETTER BOOK (display + navigation)
+   ============================================================ */
+function openLetterBook(){
+  const lb = $('letterBook');
+  if (!lb || currentLetterPages.length === 0) return;
+  currentLetterPageIdx = 0;
+  renderLetterBookPages();
+  lb.hidden = false;
+}
+
+function closeLetterBook(){
+  const lb = $('letterBook');
+  if (lb) lb.hidden = true;
+}
+
+function renderLetterBookPages(){
+  const bookEl = $('letterBookPages');
+  const dotsEl = $('letterDots');
+  if (!bookEl) return;
+
+  bookEl.innerHTML = '';
+  if (dotsEl) dotsEl.innerHTML = '';
+
+  currentLetterPages.forEach((page, idx) => {
+    const pageEl = document.createElement('div');
+    pageEl.className = 'letterPage';
+    pageEl.dataset.index = idx;
+
+    const isFirstPage = idx === 0;
+    const isLastPage = idx === currentLetterPages.length - 1;
+
+    pageEl.innerHTML = `
+      <div class="letterPage__inner">
+        <div class="letterPage__header">
+          <span class="letterPage__pageNum">Page ${idx + 1} of ${currentLetterPages.length}</span>
+          <span class="letterPage__heart">♥</span>
+        </div>
+        ${page.title ? `<div class="letterPage__title">${page.title}</div>` : ''}
+        <div class="letterPage__divider"></div>
+        <div class="letterPage__body">${escapeHtml(page.body || '')}</div>
+        <div class="letterPage__footer">
+          <span class="letterPage__footerHeart">♥</span>
+          <span class="letterPage__footerText">${isLastPage ? 'with love, always' : 'turn the page...'}</span>
+          <span class="letterPage__footerHeart">♥</span>
+        </div>
+      </div>
+    `;
+    bookEl.appendChild(pageEl);
+
+    if (dotsEl) {
+      const dot = document.createElement('span');
+      dot.className = `letterDot ${idx === currentLetterPageIdx ? 'is-active' : ''}`;
+      dot.addEventListener('click', () => {
+        currentLetterPageIdx = idx;
+        updateLetterBookPage();
+      });
+      dotsEl.appendChild(dot);
+    }
+  });
+
+  updateLetterBookPage();
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function updateLetterBookPage(){
+  const bookEl = $('letterBookPages');
+  const dotsEl = $('letterDots');
+  const indicator = $('letterPageIndicator');
+  const prevBtn = $('letterPrev');
+  const nextBtn = $('letterNext');
+  if (!bookEl) return;
+
+  const total = currentLetterPages.length;
+  if (currentLetterPageIdx < 0) currentLetterPageIdx = 0;
+  if (currentLetterPageIdx >= total) currentLetterPageIdx = total - 1;
+
+  const pages = bookEl.querySelectorAll('.letterPage');
+  pages.forEach((p, idx) => {
+    p.classList.remove('is-active', 'is-prev', 'is-next');
+    if (idx === currentLetterPageIdx) {
+      p.classList.add('is-active');
+    } else if (idx < currentLetterPageIdx) {
+      p.classList.add('is-prev');
+    } else {
+      p.classList.add('is-next');
+    }
+  });
+
+  if (dotsEl) {
+    dotsEl.querySelectorAll('.letterDot').forEach((dot, idx) => {
+      dot.classList.toggle('is-active', idx === currentLetterPageIdx);
+    });
+  }
+
+  if (indicator) indicator.textContent = `Page ${currentLetterPageIdx + 1} / ${total}`;
+  if (prevBtn) prevBtn.disabled = currentLetterPageIdx <= 0;
+  if (nextBtn) nextBtn.disabled = currentLetterPageIdx >= total - 1;
+}
+
+function initLetterBookEvents(){
+  const closeBtn = $('letterBookClose');
+  const backdrop = $('letterBookBackdrop');
+  const prevBtn = $('letterPrev');
+  const nextBtn = $('letterNext');
+  const openBtn = $('openLetterBtn');
+
+  if (openBtn) openBtn.addEventListener('click', openLetterBook);
+  if (closeBtn) closeBtn.addEventListener('click', closeLetterBook);
+  if (backdrop) backdrop.addEventListener('click', closeLetterBook);
+
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    if (currentLetterPageIdx > 0) {
+      currentLetterPageIdx--;
+      updateLetterBookPage();
+    }
+  });
+
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    if (currentLetterPageIdx < currentLetterPages.length - 1) {
+      currentLetterPageIdx++;
+      updateLetterBookPage();
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    const lb = $('letterBook');
+    if (!lb || lb.hidden) return;
+    if (e.key === 'Escape') closeLetterBook();
+    if (e.key === 'ArrowLeft' && currentLetterPageIdx > 0) {
+      currentLetterPageIdx--;
+      updateLetterBookPage();
+    }
+    if (e.key === 'ArrowRight' && currentLetterPageIdx < currentLetterPages.length - 1) {
+      currentLetterPageIdx++;
+      updateLetterBookPage();
+    }
+  });
+}
+
+/* ============================================================
+   LETTER PAGES EDITOR (inside customizer modal)
+   ============================================================ */
+const DEFAULT_LETTER_PAGES = [
+  { title: 'Dear Friend', body: '' },
+  { title: 'Our Memories', body: '' },
+  { title: 'What You Mean To Me', body: '' },
+  { title: 'My Birthday Wish', body: '' },
+  { title: 'With All My Love', body: '' }
+];
+
+function renderLetterPagesEditor(){
+  const editorEl = $('letterPagesEditor');
+  const countEl = $('letterPageCount');
+  if (!editorEl) return;
+
+  editorEl.innerHTML = '';
+
+  modalLetterPages.forEach((page, idx) => {
+    const item = document.createElement('div');
+    item.className = 'letterPageEditorItem';
+    
+    const canRemove = modalLetterPages.length > 5;
+
+    item.innerHTML = `
+      <div class="letterPageEditorItem__header">
+        <span class="letterPageEditorItem__label">📄 Page ${idx + 1}</span>
+        ${canRemove ? `<button type="button" class="letterPageEditorItem__removeBtn" title="Remove page">&times;</button>` : ''}
+      </div>
+      <input type="text" class="letterPageEditorItem__titleInput" placeholder="Page title (e.g. Dear Friend)" value="${escapeAttr(page.title || '')}" data-idx="${idx}" data-field="title" />
+      <textarea class="letterPageEditorItem__textarea" placeholder="Write your message here... Pour your heart out! ♥" data-idx="${idx}" data-field="body">${escapeHtml(page.body || '')}</textarea>
+    `;
+
+    // Title input sync
+    const titleInput = item.querySelector('.letterPageEditorItem__titleInput');
+    titleInput.addEventListener('input', (e) => {
+      modalLetterPages[idx].title = e.target.value;
+    });
+
+    // Body textarea sync
+    const textarea = item.querySelector('.letterPageEditorItem__textarea');
+    textarea.addEventListener('input', (e) => {
+      modalLetterPages[idx].body = e.target.value;
+    });
+
+    // Remove button
+    if (canRemove) {
+      const removeBtn = item.querySelector('.letterPageEditorItem__removeBtn');
+      removeBtn.addEventListener('click', () => {
+        modalLetterPages.splice(idx, 1);
+        renderLetterPagesEditor();
+      });
+    }
+
+    editorEl.appendChild(item);
+  });
+
+  if (countEl) countEl.textContent = `${modalLetterPages.length} page${modalLetterPages.length !== 1 ? 's' : ''}`;
+}
+
+function escapeAttr(str){
+  return str.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/* ============================================================
    MULTI-PHOTO CUSTOMIZER UPLOAD GRID
    ============================================================ */
 function renderMultiPhotoGrid(){
@@ -986,6 +1236,18 @@ function populateModalForm(data){
   
   modalPhotos = data.photos && data.photos.length > 0 ? [...data.photos] : (data.photo ? [data.photo] : []);
   renderMultiPhotoGrid();
+
+  // Letter pages
+  if (data.letterPages && data.letterPages.length > 0) {
+    modalLetterPages = data.letterPages.map(p => ({ title: p.title || '', body: p.body || '' }));
+  } else {
+    modalLetterPages = DEFAULT_LETTER_PAGES.map(p => ({ title: p.title, body: p.body }));
+  }
+  // Ensure minimum 5 pages
+  while (modalLetterPages.length < 5) {
+    modalLetterPages.push({ title: '', body: '' });
+  }
+  renderLetterPagesEditor();
 }
 
 function renderFriendsList(){
@@ -1019,7 +1281,8 @@ function renderFriendsList(){
       wHero: 'Happy Birthday',
       eyebrow: 'a little something, for you',
       kSub: 'to someone worth celebrating',
-      wSub: "here's to a year that blooms"
+      wSub: "here's to a year that blooms",
+      letterPages: DEFAULT_LETTER_PAGES.map(p => ({ ...p }))
     });
     renderFriendsList();
   });
@@ -1029,6 +1292,7 @@ function renderFriendsList(){
 function initCustomizer(){
   loadFriendsList();
   initLightboxEvents();
+  initLetterBookEvents();
   
   const urlFriend = parseURLParams();
   let currentFriend = urlFriend || savedFriends.find((f) => f.id === activeFriendId) || savedFriends[0];
@@ -1105,6 +1369,14 @@ function initCustomizer(){
       inputEyebrow.value = p.eyebrow.includes('friend') ? p.eyebrow : `${p.eyebrow}, for ${fname}`;
       inputKSub.value = p.kSub;
       inputWSub.value = p.wSub;
+      // Also set letter pages from preset
+      if (p.letterPages && p.letterPages.length > 0) {
+        modalLetterPages = p.letterPages.map(lp => ({
+          title: lp.title.replace(/Friend/g, fname),
+          body: lp.body
+        }));
+        renderLetterPagesEditor();
+      }
     });
   });
 
@@ -1133,7 +1405,8 @@ function initCustomizer(){
         wHero: inputHero.value.trim() || `Happy Birthday ${nameVal}`,
         eyebrow: inputEyebrow.value.trim() || `a little something, for ${nameVal}`,
         kSub: inputKSub.value.trim() || 'to someone worth celebrating',
-        wSub: inputWSub.value.trim() || "here's to a year that blooms"
+        wSub: inputWSub.value.trim() || "here's to a year that blooms",
+        letterPages: modalLetterPages.filter(p => p.title.trim() || p.body.trim()).map(p => ({ title: p.title, body: p.body }))
       };
 
       const existingIdx = savedFriends.findIndex((f) => f.id === friendObj.id);
@@ -1179,6 +1452,22 @@ function initCustomizer(){
           setTimeout(() => { txt.textContent = orig; }, 2500);
         }
       }).catch(() => {});
+    });
+  }
+
+  // Add Letter Page button
+  const addPageBtn = $('btnAddLetterPage');
+  if (addPageBtn) {
+    addPageBtn.addEventListener('click', () => {
+      modalLetterPages.push({ title: '', body: '' });
+      renderLetterPagesEditor();
+      // Scroll to the new page
+      const editorEl = $('letterPagesEditor');
+      if (editorEl) {
+        requestAnimationFrame(() => {
+          editorEl.scrollTop = editorEl.scrollHeight;
+        });
+      }
     });
   }
 }
