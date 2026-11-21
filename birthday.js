@@ -563,22 +563,6 @@ function rebuildKineticChars(){
 const STORAGE_KEY = 'bday_friends_list';
 const ACTIVE_KEY = 'bday_active_friend_id';
 
-const DEFAULT_FRIENDS = [
-  {
-    id: 'default_1',
-    name: 'Bestie',
-    photos: ['/photos/memory1.jpg', '/photos/memory2.jpg', '/photos/memory3.jpg'],
-    photo: '/photos/memory1.jpg',
-    wLine1: 'Happy',
-    wLine2: 'Birthday!',
-    wHero: 'Happy Birthday',
-    eyebrow: 'a little something, for my best friend',
-    kSub: 'to someone worth celebrating every day',
-    wSub: "here's to a year that blooms with joy",
-    letterPages: PRESET_MESSAGES.bestie.letterPages
-  }
-];
-
 const PRESET_MESSAGES = {
   bestie: {
     wLine1: 'Happy',
@@ -641,6 +625,22 @@ const PRESET_MESSAGES = {
     ]
   }
 };
+
+const DEFAULT_FRIENDS = [
+  {
+    id: 'default_1',
+    name: 'Bestie',
+    photos: ['/photos/memory1.jpg', '/photos/memory2.jpg', '/photos/memory3.jpg'],
+    photo: '/photos/memory1.jpg',
+    wLine1: 'Happy',
+    wLine2: 'Birthday!',
+    wHero: 'Happy Birthday',
+    eyebrow: 'a little something, for my best friend',
+    kSub: 'to someone worth celebrating every day',
+    wSub: "here's to a year that blooms with joy",
+    letterPages: PRESET_MESSAGES.bestie.letterPages
+  }
+];
 
 let savedFriends = [];
 let activeFriendId = null;
