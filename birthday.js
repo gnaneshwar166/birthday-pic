@@ -20,6 +20,7 @@
    ============================================================ */
 
 import gsap from 'gsap';
+import QRCode from 'qrcode';
 
 /* the pen-stroke plugin: a `drawn` 0..1 property for the underline */
 gsap.registerPlugin({
@@ -1319,7 +1320,10 @@ function initCustomizer(){
   const inputWSub = $('inputWSub');
 
   const saveBtn = $('btnSaveWish');
-  const shareBtn = $('btnShareLink');
+  const showQrBtn = $('btnShowQr');
+  const qrModal = $('qrModal');
+  const closeQrModalBtn = $('closeQrModalBtn');
+  const qrModalBackdrop = $('qrModalBackdrop');
 
   if (!modal || !openBtn) return;
 
@@ -1427,9 +1431,13 @@ function initCustomizer(){
     });
   }
 
-  // Share link
-  if (shareBtn){
-    shareBtn.addEventListener('click', () => {
+  // QR Code sharing
+  const closeQr = () => { if (qrModal) qrModal.hidden = true; };
+  if (closeQrModalBtn) closeQrModalBtn.addEventListener('click', closeQr);
+  if (qrModalBackdrop) qrModalBackdrop.addEventListener('click', closeQr);
+
+  if (showQrBtn) {
+    showQrBtn.addEventListener('click', () => {
       const nameVal = inputName.value.trim() || 'Friend';
       const url = new URL(window.location.href);
       url.searchParams.set('name', nameVal);
@@ -1440,18 +1448,28 @@ function initCustomizer(){
       url.searchParams.set('kSub', inputKSub.value.trim() || 'to someone worth celebrating');
       url.searchParams.set('wSub', inputWSub.value.trim() || "here's to a year that blooms");
 
-      if (modalPhotos.length > 0){
+      if (modalPhotos.length > 0) {
         url.searchParams.set('pics', modalPhotos.slice(0, 3).join(','));
       }
 
-      navigator.clipboard.writeText(url.toString()).then(() => {
-        const txt = $('shareBtnText');
-        if (txt){
-          const orig = txt.textContent;
-          txt.textContent = 'Copied! 📋';
-          setTimeout(() => { txt.textContent = orig; }, 2500);
-        }
-      }).catch(() => {});
+      const qrCanvas = $('qrCanvas');
+      const qrLabel = $('qrFriendLabel');
+      if (qrLabel) qrLabel.textContent = `For: ${nameVal}`;
+
+      if (qrCanvas) {
+        QRCode.toCanvas(qrCanvas, url.toString(), {
+          width: 200,
+          margin: 1,
+          color: {
+            dark: '#12040b',
+            light: '#ffffff'
+          }
+        }, (err) => {
+          if (err) console.error('QR generation error:', err);
+        });
+      }
+
+      if (qrModal) qrModal.hidden = false;
     });
   }
 
