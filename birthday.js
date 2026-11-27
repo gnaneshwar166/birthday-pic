@@ -561,8 +561,8 @@ function rebuildKineticChars(){
 /* ============================================================
    FRIEND & WISH CUSTOMIZATION SYSTEM
    ============================================================ */
-const STORAGE_KEY = 'bday_friends_list_v2';
-const ACTIVE_KEY = 'bday_active_friend_id_v2';
+const STORAGE_KEY = 'bday_friends_list_v3';
+const ACTIVE_KEY = 'bday_active_friend_id_v3';
 
 const TELUGU_NANI_PAGES = [
   {
@@ -663,8 +663,8 @@ const DEFAULT_FRIENDS = [
   {
     id: 'friend_nani',
     name: 'Manideepika (Nani)',
-    photos: ['/photos/memory1.jpg', '/photos/memory2.jpg', '/photos/memory3.jpg'],
-    photo: '/photos/memory1.jpg',
+    photos: ['/photos/nani1.jpg', '/photos/nani2.jpg'],
+    photo: '/photos/nani1.jpg',
     wLine1: 'Happy',
     wLine2: 'Birthday Nani!',
     wHero: 'Happy Birthday Manideepika',
