@@ -561,10 +561,42 @@ function rebuildKineticChars(){
 /* ============================================================
    FRIEND & WISH CUSTOMIZATION SYSTEM
    ============================================================ */
-const STORAGE_KEY = 'bday_friends_list';
-const ACTIVE_KEY = 'bday_active_friend_id';
+const STORAGE_KEY = 'bday_friends_list_v2';
+const ACTIVE_KEY = 'bday_active_friend_id_v2';
+
+const TELUGU_NANI_PAGES = [
+  {
+    title: 'డియర్ నాని (Manideepika) ✨',
+    body: "చిన్నప్పటి నుండి నా బెస్ట్ ఫ్రెండ్ గా ఉన్నందుకు చాలా చాలా థాంక్స్ నాని.\n\nమన పరిచయం, మన స్నేహం ఇప్పటిది కాదు... చిన్ననాటి రోజుల నుండి మొదలైన ఈ బంధం నా జీవితంలో ఎప్పటికీ చాలా ప్రత్యేకం."
+  },
+  {
+    title: 'మన పాత రోజులు 🌸',
+    body: "నిన్ను, మన పాత రోజులను చాలా మిస్ అవుతున్నాను.\n\nచిన్నప్పుడు మనం కలిసి ఆడుకున్న ఆటలు, గడిపిన క్షణాలు, చేసిన అల్లరి... ప్రతి జ్ఞాపకం నా మనసులో ఇంకా తాజాగా ఉంది. ఎంత కాలం గడిచినా ఆ రోజులు ఎప్పటికీ మరచిపోలేను."
+  },
+  {
+    title: 'స్నేహానికి ధన్యవాదాలు 💖',
+    body: "కాలం మారుతున్నా, మనం ఎక్కడ ఉన్నా... మన చిన్ననాటి స్నేహం ఎప్పటికీ అలాగే నిలిచి ఉంటుంది.\n\nఎటువంటి భేషజాలు లేకుండా నాతో మాట్లాడే ఒక నిజమైన స్నేహితురాలివి నువ్వు. నీలాంటి మంచి ఫ్రెండ్ నా జీవితంలో ఉండటం నా అదృష్టం."
+  },
+  {
+    title: 'నా హృదయపూర్వక శుభాకాంక్షలు 🎂',
+    body: "ఈ పుట్టినరోజు నీకు ఎన్నో సంతోషాలను, విజయాలను తీసుకురావాలని మనస్ఫూర్తిగా కోరుకుంటున్నాను.\n\nనువ్వు అనుకున్న ప్రతి కల నిజం కావాలి. నీ ముఖంలో చిరునవ్వు ఎల్లప్పుడూ వెలుగుతూ ఉండాలి."
+  },
+  {
+    title: 'హ్యాపీ బర్త్ డే నాని! 💐',
+    body: "Once again, Happy Birthday Manideepika (Nani)! 🎉\n\nజీవితంలో నువ్వు మరింత ఉన్నత స్థాయికి ఎదగాలని, ఎల్లప్పుడూ ఆనందంగా, ఆరోగ్యంగా ఉండాలని కోరుకుంటున్నాను.\n\nమన స్నేహం ఇలాగే ఎప్పటికీ కొనసాగాలని ఆశిస్తూ...\n- నీ చిన్ననాటి బెస్ట్ ఫ్రెండ్ ♥"
+  }
+];
 
 const PRESET_MESSAGES = {
+  nani: {
+    wLine1: 'Happy',
+    wLine2: 'Birthday Nani!',
+    wHero: 'Happy Birthday Manideepika',
+    eyebrow: 'చిన్ననాటి స్నేహితురాలు నానికి... ప్రేమతో',
+    kSub: 'చిన్నప్పటి నుండి నా బెస్ట్ ఫ్రెండ్ గా ఉన్నందుకు థాంక్స్',
+    wSub: 'నిన్ను, మన పాత రోజులను చాలా మిస్ అవుతున్నాను నాని',
+    letterPages: TELUGU_NANI_PAGES
+  },
   bestie: {
     wLine1: 'Happy',
     wLine2: 'Birthday!',
@@ -629,17 +661,17 @@ const PRESET_MESSAGES = {
 
 const DEFAULT_FRIENDS = [
   {
-    id: 'default_1',
-    name: 'Bestie',
+    id: 'friend_nani',
+    name: 'Manideepika (Nani)',
     photos: ['/photos/memory1.jpg', '/photos/memory2.jpg', '/photos/memory3.jpg'],
     photo: '/photos/memory1.jpg',
     wLine1: 'Happy',
-    wLine2: 'Birthday!',
-    wHero: 'Happy Birthday',
-    eyebrow: 'a little something, for my best friend',
-    kSub: 'to someone worth celebrating every day',
-    wSub: "here's to a year that blooms with joy",
-    letterPages: PRESET_MESSAGES.bestie.letterPages
+    wLine2: 'Birthday Nani!',
+    wHero: 'Happy Birthday Manideepika',
+    eyebrow: 'చిన్ననాటి స్నేహితురాలు నానికి... ప్రేమతో',
+    kSub: 'చిన్నప్పటి నుండి నా బెస్ట్ ఫ్రెండ్ గా ఉన్నందుకు థాంక్స్',
+    wSub: 'నిన్ను, మన పాత రోజులను చాలా మిస్ అవుతున్నాను నాని',
+    letterPages: TELUGU_NANI_PAGES
   }
 ];
 
@@ -661,7 +693,7 @@ function loadFriendsList(){
   } catch (_) {
     savedFriends = [...DEFAULT_FRIENDS];
   }
-  activeFriendId = localStorage.getItem(ACTIVE_KEY) || (savedFriends[0] && savedFriends[0].id) || 'default_1';
+  activeFriendId = localStorage.getItem(ACTIVE_KEY) || (savedFriends[0] && savedFriends[0].id) || 'friend_nani';
 }
 
 function saveFriendsList(){
