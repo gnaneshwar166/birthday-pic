@@ -561,8 +561,8 @@ function rebuildKineticChars(){
 /* ============================================================
    FRIEND & WISH CUSTOMIZATION SYSTEM
    ============================================================ */
-const STORAGE_KEY = 'bday_friends_list_v3';
-const ACTIVE_KEY = 'bday_active_friend_id_v3';
+const STORAGE_KEY = 'bday_friends_list_v4';
+const ACTIVE_KEY = 'bday_active_friend_id_v4';
 
 const TELUGU_NANI_PAGES = [
   {
@@ -592,7 +592,7 @@ const PRESET_MESSAGES = {
     wLine1: 'Happy',
     wLine2: 'Birthday Nani!',
     wHero: 'Happy Birthday Manideepika',
-    eyebrow: 'చిన్ననాటి స్నేహితురాలు నానికి... ప్రేమతో',
+    eyebrow: 'చిన్ననాటి స్నేహితురాలు నానికి...',
     kSub: 'చిన్నప్పటి నుండి నా బెస్ట్ ఫ్రెండ్ గా ఉన్నందుకు థాంక్స్',
     wSub: 'నిన్ను, మన పాత రోజులను చాలా మిస్ అవుతున్నాను నాని',
     letterPages: TELUGU_NANI_PAGES
@@ -668,7 +668,7 @@ const DEFAULT_FRIENDS = [
     wLine1: 'Happy',
     wLine2: 'Birthday Nani!',
     wHero: 'Happy Birthday Manideepika',
-    eyebrow: 'చిన్ననాటి స్నేహితురాలు నానికి... ప్రేమతో',
+    eyebrow: 'చిన్ననాటి స్నేహితురాలు నానికి...',
     kSub: 'చిన్నప్పటి నుండి నా బెస్ట్ ఫ్రెండ్ గా ఉన్నందుకు థాంక్స్',
     wSub: 'నిన్ను, మన పాత రోజులను చాలా మిస్ అవుతున్నాను నాని',
     letterPages: TELUGU_NANI_PAGES
